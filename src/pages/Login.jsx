@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Login = () => {
-    const { userLogIn } = useContext(AuthContext);
+    const { userLogIn, googleLogIn } = useContext(AuthContext);
+    const navigate = useNavigate()
     const handleLogin = e => {
         e.preventDefault()
         const email = e.target.email.value;
@@ -12,10 +13,14 @@ const Login = () => {
             .then(result => {
                 console.log(result);
                 e.target.reset();
+                navigate('/')
             })
             .catch(error => {
                 console.log(error.message);
             })
+    }
+    const handleGoogleLogin = () => {
+        googleLogIn()
     }
 
     return (
@@ -46,6 +51,7 @@ const Login = () => {
                             <p>New here? <Link className="btn btn-link" to="/register">Register</Link></p>
                         </div>
                     </form>
+                    <p><button onClick={handleGoogleLogin} className="btn btn-ghost">Google</button></p>
                 </div>
             </div>
         </div>
